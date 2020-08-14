@@ -4,6 +4,10 @@ trait Client {
   def getItem(id: Int)
 }
 
+trait ClientFactory {
+  def build(): Client
+}
+
 object ItemType extends Enumeration {
   type ItemType = Value
   val Job = Value("job")

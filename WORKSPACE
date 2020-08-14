@@ -42,7 +42,9 @@ maven_install(
     artifacts = [
         "org.scalaj:scalaj-http_2.11:2.4.2",
         "org.json4s:json4s-core_2.11:3.7.0-M6",
-        "org.json4s:json4s-native_2.11:3.7.0-M6"
+        "org.json4s:json4s-native_2.11:3.7.0-M6",
+        # tests
+        "junit:junit:4.12",
     ],
     fetch_sources = True,
     repositories = [
