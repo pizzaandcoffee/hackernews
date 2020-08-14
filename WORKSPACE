@@ -2,6 +2,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # bazel-skylib 0.8.0 released 2019.03.20 (https://github.com/bazelbuild/bazel-skylib/releases/tag/0.8.0)
 skylib_version = "0.8.0"
+
 http_archive(
     name = "bazel_skylib",
     type = "tar.gz",
@@ -24,3 +25,29 @@ scala_register_toolchains()
 
 load("@io_bazel_rules_scala//scala:scala.bzl", "scala_repositories")
 scala_repositories()
+
+RULES_JVM_EXTERNAL_TAG = "2.5"
+RULES_JVM_EXTERNAL_SHA = "249e8129914be6d987ca57754516be35a14ea866c616041ff0cd32ea94d2f3a1"
+
+http_archive(
+    name = "rules_jvm_external",
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
+)
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+maven_install(
+    artifacts = [
+        "org.scalaj:scalaj-http_2.11:2.4.2",
+        "org.json4s:json4s-core_2.11:3.7.0-M6",
+        "org.json4s:json4s-native_2.11:3.7.0-M6"
+    ],
+    fetch_sources = True,
+    repositories = [
+        "https://jcenter.bintray.com/",
+        "https://repo1.maven.org/maven2/",
+    ],
+)
+
