@@ -7,6 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: akaheh
+      id: idk
+      run: |
+        echo $PWD
+        ls -l
     - name: Bazel output cache
       id: cache-primes
       uses: actions/cache@v1
@@ -25,18 +30,19 @@ jobs:
       env:
         BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
     - name: Run bazel build all
-      run: bazel build //...
+      run: bazel build :all
       env:
         BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
   test:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
+      - uses: actions/checkout@v2
       - name: akaheh
         id: idk
         run: |
           echo $PWD
-          ls
+          ls -l
       - name: Bazel output cache
         id: cache-primes
         uses: actions/cache@v1
@@ -55,6 +61,6 @@ jobs:
         env:
           BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
       - name: Run bazel test all
-        run: bazel test //...
+        run: bazel test :all
         env:
           BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
