@@ -1,4 +1,5 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 # bazel-skylib 0.8.0 released 2019.03.20 (https://github.com/bazelbuild/bazel-skylib/releases/tag/0.8.0)
 skylib_version = "0.8.0"
@@ -39,6 +40,13 @@ http_archive(
 # You may need to modify this if your project uses google_protobuf for other purposes.
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 protobuf_deps()
+
+# maven
+git_repository(
+    name = "graknlabs_bazel_distribution",
+    remote = "https://github.com/graknlabs/bazel-distribution",
+    commit = "e181add439dc1cfb7b1c27db771ec741d5dd43e6"
+)
 
 # jvm
 RULES_JVM_EXTERNAL_TAG = "2.5"
