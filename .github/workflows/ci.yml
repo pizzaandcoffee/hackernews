@@ -21,11 +21,11 @@ jobs:
         echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
         echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
     - name: Ensure bazel on box
-      run: ./bazel
+      run: bazel
       env:
         BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
     - name: Run bazel build all
-      run: ./bazel build //...
+      run: bazel build //...
       env:
         BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
   test:
@@ -46,10 +46,10 @@ jobs:
           echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
           echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
       - name: Ensure bazel on box
-        run: ./bazel
+        run: bazel
         env:
           BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
       - name: Run bazel test all
-        run: ./bazel test //...
+        run: bazel test //...
         env:
           BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
