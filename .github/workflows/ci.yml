@@ -1,66 +1,36 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
 name: CI
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v2
-    - name: akaheh
-      id: idk
-      run: |
-        echo $PWD
-        ls -l
-    - name: Bazel output cache
-      id: cache-primes
-      uses: actions/cache@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
       with:
-        path: "${{ github.workspace }}/.bazel-cache"
-        key: ${{ runner.os }}-bazel-out-${{ github.run_id}}
-        restore-keys: |
-          ${{ runner.os }}-bazel-out-
-    - name: Configure bazel config for actions
-      run: |
-        echo "build --config github_actions" > user.bazelrc
-        echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
-        echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
-    - name: Ensure bazel on box
-      run: bazel
-      env:
-        BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
-    - name: Run bazel build all
-      run: bazel build :all
-      env:
-        BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
-  test:
+        java-version: 1.8
+    - name: Build with Gradle
+      run: gradle build
+
+  build:
     runs-on: ubuntu-latest
     needs: [build]
+
     steps:
-      - uses: actions/checkout@v2
-      - name: akaheh
-        id: idk
-        run: |
-          echo $PWD
-          ls -l
-      - name: Bazel output cache
-        id: cache-primes
-        uses: actions/cache@v1
-        with:
-          path: "${{ github.workspace }}/.bazel-cache"
-          key: ${{ runner.os }}-bazel-out-${{ github.run_id}}
-          restore-keys: |
-            ${{ runner.os }}-bazel-out-
-      - name: Configure bazel config for actions
-        run: |
-          echo "build --config github_actions" > user.bazelrc
-          echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
-          echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
-      - name: Ensure bazel on box
-        run: bazel
-        env:
-          BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
-      - name: Run bazel test all
-        run: bazel test :all
-        env:
-          BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Run tests with Gradle
+      run: gradle test

@@ -11,7 +11,7 @@ case class V0Item(
   parent: Option[Int],
   url: Option[String],
   title: String,
-  dead: Boolean,
-  deleted: Boolean
+  //dead: Boolean,
+  //deleted: Boolean
 ) extends Item 
 

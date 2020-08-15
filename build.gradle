@@ -1,0 +1,54 @@
+plugins {
+    id 'scala'
+}
+
+apply plugin: 'java'
+apply plugin: 'scala'
+sourceCompatibility = 1.8
+targetCompatibility = 1.11
+
+group 'rocks.pizzaandcoffee'
+version '0.0.0'
+
+sourceSets {
+    main {
+        scala {
+            srcDirs = ['src/main/scala']
+        }
+    }
+    test {
+        scala {
+            srcDirs = ['src/test/scala']
+        }
+   }
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.scala-lang:scala-library:2.13.2'
+    testImplementation 'org.scalatest:scalatest_2.13:3.2.1'
+    testImplementation 'junit:junit:4.13'
+    compile group: 'org.json4s', name: 'json4s-native_2.13', version: '3.7.0-M6'
+    compile group: 'org.scalaj', name: 'scalaj-http_2.13', version: '2.4.2'
+}
+
+task scalaTest(dependsOn: ['testClasses'], type: JavaExec) {
+  main = 'org.scalatest.tools.Runner'
+  args = ['-R', 'build/classes/scala/test', '-o']
+  classpath = sourceSets.test.runtimeClasspath
+}
+
+test.dependsOn scalaTest 
+
+test {
+    useJUnit()
+    
+    maxHeapSize = '1G'
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}

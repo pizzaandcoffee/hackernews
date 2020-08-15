@@ -1,7 +1,7 @@
 package rocks.pizzaandcoffee.hackernews;
 
 trait Client {
-  def getItem(id: Int)
+  def getItem(id: Int): Item
 }
 
 trait ClientFactory {
@@ -24,8 +24,8 @@ trait Item {
   def time: Int
   def kids: List[Int]
   def parent: Option[Int]
-  def dead: Boolean
-  def deleted: Boolean
+  //def dead: Boolean
+  //def deleted: Boolean
 }
 
 trait Story {
