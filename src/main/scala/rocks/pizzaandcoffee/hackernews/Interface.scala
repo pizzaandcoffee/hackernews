@@ -13,8 +13,8 @@ trait Item {
   def id: Int
   def by: String
   def time: Int
-  def kids: List[Int]
-  def parent: Option[Int]
+  def kids: List[Item]
+  def parent: Option[Item]
   def dead: Boolean
   def deleted: Boolean
 }

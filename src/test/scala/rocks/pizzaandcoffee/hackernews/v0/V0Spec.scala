@@ -17,4 +17,19 @@ class V0Spec extends AnyFlatSpec {
     val comment = V0Client.getComment(22524321).get
     assert(comment.id == 22524321) 
   }
+
+  "V0Story" should "fetch kids" in {
+    val story = V0Client.getStory(1).get
+    val children = story.kids
+    assert(children.length >= 7)
+    assert(children.head.id == 15)
+  }
+
+  "V0Comment" should "fetch kids" in {
+    val comment = V0Client.getComment(17).get
+    val children = comment.kids
+    assert(children.length >= 1)
+    assert(children.head.id == 1079)
+  }
+
 }
