@@ -5,7 +5,7 @@ import rocks.pizzaandcoffee.hackernews.v0.V0Client;
 class HackerNews(client: Client = V0Client) {
   def this() = this(V0Client)
 
-  def getItem(id: Int): Item = {
-    this.client.getItem(id)
+  def getStory(id: Int): Option[Story] = {
+    this.client.getStory(id)
   }
 }

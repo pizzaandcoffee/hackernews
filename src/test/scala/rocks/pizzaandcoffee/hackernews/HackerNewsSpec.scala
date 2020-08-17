@@ -5,6 +5,7 @@ import rocks.pizzaandcoffee.hackernews.HackerNews
 class HackerNewsSpec extends AnyFlatSpec {
   "things" should "work" in {
     val hn = new HackerNews()
-    hn.getItem(42)
+    val story = hn.getStory(21672481).get
+    assert(story.id == 21672481) 
   }
 }
