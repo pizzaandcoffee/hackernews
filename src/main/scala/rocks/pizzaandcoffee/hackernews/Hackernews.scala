@@ -8,4 +8,8 @@ class HackerNews(client: Client = V0Client) {
   def getStory(id: Int): Option[Story] = {
     this.client.getStory(id)
   }
+
+  def getComment(id: Int): Option[Comment] = {
+    this.client.getComment(id)
+  }
 }

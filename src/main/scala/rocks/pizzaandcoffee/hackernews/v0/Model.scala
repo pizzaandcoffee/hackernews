@@ -4,6 +4,7 @@ import org.json4s.FieldSerializer
 import org.json4s.FieldSerializer._
 import rocks.pizzaandcoffee.hackernews.Item; 
 import rocks.pizzaandcoffee.hackernews.Story; 
+import rocks.pizzaandcoffee.hackernews.Comment; 
 
 case class V0Item(
   id: Int,
@@ -16,32 +17,45 @@ case class V0Item(
   parent: Option[Int],
   kids: List[Int],
   url: Option[String],
-  score: Int,
+  score: Option[Int],
   title: Option[String],
   parts: List[String],
   descendants: Option[Int]
 ) {
   def toStory() = {
     new V0Story(
+      id,
+      by,
+      time,
+      kids,
+      parent,
+      dead.getOrElse(false),
+      deleted.getOrElse(false),
+      title.getOrElse(""),
+      url.getOrElse(""),
+      score.getOrElse(0)
+    )
+  }
+
+  def toComment() = {
+    new V0Comment(
       id, 
       by, 
-      score, 
       time, 
       kids, 
       parent, 
-      dead.getOrElse(false), 
-      deleted.getOrElse(false), 
-      title.getOrElse(""), 
-      url.getOrElse("")
+      dead.getOrElse(false),
+      deleted.getOrElse(false),
+      text.getOrElse("")
     )
   }
+
 } 
 
 case class V0Story (
   // item
   id: Int,
   by: String,
-  score: Int,
   time: Int,
   kids: List[Int],
   parent: Option[Int],
@@ -49,5 +63,19 @@ case class V0Story (
   deleted: Boolean,
   // story 
   title: String,
-  url: String
+  url: String,
+  score: Int
 ) extends Story
+
+case class V0Comment (
+  // item
+  id: Int,
+  by: String,
+  time: Int,
+  kids: List[Int],
+  parent: Option[Int],
+  dead: Boolean,
+  deleted: Boolean,
+  // story 
+  text: String
+) extends Comment 

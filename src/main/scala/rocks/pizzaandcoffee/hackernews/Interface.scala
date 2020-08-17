@@ -12,7 +12,6 @@ object ItemType extends Enumeration {
 trait Item {
   def id: Int
   def by: String
-  def score: Int
   def time: Int
   def kids: List[Int]
   def parent: Option[Int]
@@ -23,10 +22,16 @@ trait Item {
 trait Story extends Item {
   def title: String
   def url: String
+  def score: Int
+}
+
+trait Comment extends Item {
+  def text: String
 }
 
 trait Client {
   def getStory(id: Int): Option[Story]
+  def getComment(id: Int): Option[Comment]
 }
 
 trait ClientFactory {
