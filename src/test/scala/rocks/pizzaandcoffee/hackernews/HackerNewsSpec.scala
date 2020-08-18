@@ -2,7 +2,10 @@ package rocks.pizzaandcoffee.hackernews;
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.Assertions.assert
+import org.scalatestplus.junit.JUnitRunner
+import org.junit.runner.RunWith
 
+@RunWith(classOf[JUnitRunner])
 class HackerNewsSpec extends AnyFlatSpec {
   "HackerNews" should "fetch a story" in {
     val hn = new HackerNews()

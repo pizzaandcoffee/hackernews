@@ -2,8 +2,11 @@ package rocks.pizzaandcoffee.hackernews.v0;
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.Assertions._
+import org.scalatestplus.junit.JUnitRunner
+import org.junit.runner.RunWith
 import rocks.pizzaandcoffee.hackernews.v0._
 
+@RunWith(classOf[JUnitRunner])
 class V0Spec extends AnyFlatSpec {
   "V0Client" should "fetch a story" in {
     V0Client.getStory(21672481) match {
@@ -32,6 +35,12 @@ class V0Spec extends AnyFlatSpec {
     val children = comment.kids
     assert(children.length >= 1)
     assert(children.head.id == 1079)
+  }
+
+  "V0Comment" should "fetch parent" in {
+    val comment = V0Client.getComment(1079).get
+    val parent = comment.parent.get
+    assert(parent.id == 17)
   }
 
 }

@@ -1,9 +1,9 @@
 plugins {
+    id 'java'
     id 'scala'
+    id 'jacoco'
 }
 
-apply plugin: 'java'
-apply plugin: 'scala'
 sourceCompatibility = 1.8
 targetCompatibility = 1.11
 
@@ -23,7 +23,6 @@ sourceSets {
    }
 }
 
-
 repositories {
     mavenCentral()
 }
@@ -31,18 +30,11 @@ repositories {
 dependencies {
     implementation 'org.scala-lang:scala-library:2.13.2'
     testImplementation 'org.scalatest:scalatest_2.13:3.2.1'
+    testImplementation group: 'org.scalatestplus', name: 'scalatestplus-junit_2.13', version: '1.0.0-M2'
     testImplementation 'junit:junit:4.13'
     compile group: 'org.json4s', name: 'json4s-native_2.13', version: '3.7.0-M6'
     compile group: 'org.scalaj', name: 'scalaj-http_2.13', version: '2.4.2'
 }
-
-task scalaTest(dependsOn: ['testClasses'], type: JavaExec) {
-  main = 'org.scalatest.tools.Runner'
-  args = ['-R', 'build/classes/scala/test', '-o']
-  classpath = sourceSets.test.runtimeClasspath
-}
-
-test.dependsOn scalaTest 
 
 test {
     useJUnit()
@@ -51,4 +43,23 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
+    
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
+task classpath {
+    doLast {
+        println sourceSets.main.runtimeClasspath.asPath 
+    }
+}
+
+// rust tests with the scala test runner for better error messages
+task runSpec(dependsOn: ['testClasses'], type: JavaExec) {
+    main = 'org.scalatest.tools.Runner'
+    args = ['-R', 'build/classes/scala/test', '-o']
+    classpath = sourceSets.test.runtimeClasspath
 }
